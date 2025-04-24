@@ -24,15 +24,14 @@ function displayCharacters() {
       <img src="${char.image}" alt="${char.name}">
       <p><strong>${char.name}</strong></p>
       <p>${char.anime}</p>
-      <p id="pastGuesses">${pastGuessesToString(char)}<\p>
     `;
-    // dynamically change background color according to past information
+    /* // dynamically change background color according to past information
     div.style.backgroundColor = guessColorMapping[char.pastGuesses[index]];
 
     // if real position is already guesses, also show green
     if (char.pastGuesses.includes(0) && realOrder.findIndex(character => character.name == char.name) != index){
       div.style.backgroundColor = guessColorMapping[2];
-    }
+    } */
     container.appendChild(div);
   });
 
@@ -145,6 +144,49 @@ function setupStartButtons(){
         startFemale.classList.add("hidden");    // hide the button again
         loadCharacters("Female");
     });
+}
+
+function displayHistory(idx) {
+  const historyContainer = document.getElementById(`guessHistory${idx}`);
+  historyContainer.innerHTML = ''; // Clear previous
+
+  guessOrder.forEach((char, index) => {
+    const div = document.createElement('div');
+    div.className = 'mini-card';
+    div.setAttribute('data-index', index); // for tracking drag index
+    div.dataset.dropIndex = index;
+    div.innerHTML = `
+      <img src="${char.image}" alt="${char.name}">
+    `;
+    historyContainer.appendChild(div);
+  });
+
+  // Add Counts of Right
+  const div_right = document.createElement('div');
+  div_right.className = 'hint-card';
+  div_right.style.backgroundColor = guessColorMapping[0];
+  div_right.innerHTML = `
+      <p>${correctCount}</p>
+    `;
+  historyContainer.appendChild(div_right);
+
+  // Add Counts of Close
+  const div_close = document.createElement('div');
+  div_close.className = 'hint-card';
+  div_close.style.backgroundColor = guessColorMapping[1];
+  div_close.innerHTML = `
+      <p>${closeCount}</p>
+    `;
+  historyContainer.appendChild(div_close);
+
+  // Add Counts of Wrong
+  const div_wrong = document.createElement('div');
+  div_wrong.className = 'hint-card';
+  div_wrong.style.backgroundColor = guessColorMapping[2];
+  div_wrong.innerHTML = `
+      <p>${wrongCount}</p>
+    `;
+  historyContainer.appendChild(div_wrong);
 }
 
 const guessMapping = {

@@ -18,7 +18,7 @@ body {
   }
 
   .drop-zone {
-    height: 450px;
+    height: 435px;
     width: 1rem;
     margin: 4px 0;
     background: transparent;
@@ -41,11 +41,55 @@ body {
   
   .character-card {
     width: 180px;
+    height: 425px;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 12px;
     box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
     background-color: #fff;
+  }
+
+  .guess-history {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0rem;
+    margin-top: 2rem;
+  }
+
+  .mini-card {
+    width: 100px;
+    height: 140px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+  }
+  
+  .mini-card img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .hint-card {
+    width: 100px;
+    height: 140px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+    margin-left: 20px;
   }
   
   .character-card img {

@@ -1,5 +1,9 @@
 let numCharacters = 8;
 let closeThreshold = 0; // TODO: set to 0-3 for hard/easy mode
+let maxGuesses = 2;
+let correctCount = 0;
+let closeCount = 0;
+let wrongCount = 0;
 
 // TODO: game is too easy. Only reveal number of correct guesses and give "hint" button to reveal red/green/yellow for one past guess
 // TODO: -> this requires visualization of guess history -> 3 boxes below with only images and count + reveal button next to it!
@@ -48,10 +52,18 @@ const feedback = guessOrder.map((char, i) => {
 }); 
 alert("Feedback:\n" + feedback.join(" "));
 */
+if (guessCount < maxGuesses) {
+    displayHistory(guessCount);
+}
 guessCount++;
-const numOfGuesses = document.getElementById('numOfGuesses');
-numOfGuesses.textContent = "Number of Guesses: " + guessCount;
+// const numOfGuesses = document.getElementById('numOfGuesses');
+// numOfGuesses.textContent = "Number of Guesses: " + guessCount;
 displayCharacters();
+
+//reset counts
+correctCount = 0;
+closeCount = 0;
+wrongCount = 0;
 });
 
 function evaluateGuesses(){
@@ -62,14 +74,17 @@ function evaluateGuesses(){
         if(realIndex == index){
             // perfect Guess!
             char.pastGuesses[index] = 0;
+            correctCount++;
         }
         else if(Math.abs(realIndex - index) <= closeThreshold){
             // close Guess!
             char.pastGuesses[index] = 1;
+            closeCount++;
         }
         else{
             // Wrong Guess!
             char.pastGuesses[index] = 2;
+            wrongCount++;
         }
     });
 }
