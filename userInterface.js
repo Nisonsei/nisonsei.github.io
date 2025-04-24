@@ -26,6 +26,13 @@ function displayCharacters() {
       <p>${char.anime}</p>
       <p id="pastGuesses">${pastGuessesToString(char)}<\p>
     `;
+    // dynamically change background color according to past information
+    div.style.backgroundColor = guessColorMapping[char.pastGuesses[index]];
+
+    // if real position is already guesses, also show green
+    if (char.pastGuesses.includes(0) && realOrder.findIndex(character => character.name == char.name) != index){
+      div.style.backgroundColor = guessColorMapping[2];
+    }
     container.appendChild(div);
   });
 
@@ -34,8 +41,6 @@ function displayCharacters() {
   finalDropZone.className = 'drop-zone';
   finalDropZone.dataset.dropIndex = guessOrder.length;
   container.appendChild(finalDropZone);
-
-  // TODO: actively change background of character portaits based on current information (past guesses)
 
   addDragListeners();   // atach drag event after rendering
 }
@@ -148,6 +153,13 @@ const guessMapping = {
   2: '❌',
   3: '❓'
 };
+
+const guessColorMapping = {
+  0: '#a6dda8',
+  1: '#e2df41b7',
+  2: '#d63520b7',
+  3: '#fff'
+}
 
 function pastGuessesToString(char){
   relevantGuesses = char.pastGuesses;

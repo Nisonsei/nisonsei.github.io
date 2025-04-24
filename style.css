@@ -25,12 +25,12 @@ body {
   }
   
   .drop-zone.active-drop {
-    background: #a6dda8;
+    background: #100979;
     transition: background 0.2s;
   }
 
   .character-card.active-drop{
-    background: #a6dda8;
+    background: #100979;
     transition: background 0.2s;
   }
 

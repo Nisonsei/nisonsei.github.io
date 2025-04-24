@@ -1,6 +1,9 @@
 let numCharacters = 8;
 let closeThreshold = 0; // TODO: set to 0-3 for hard/easy mode
 
+// TODO: game is too easy. Only reveal number of correct guesses and give "hint" button to reveal red/green/yellow for one past guess
+// TODO: -> this requires visualization of guess history -> 3 boxes below with only images and count + reveal button next to it!
+
 async function loadCharacters(gender) {
     const response = await fetch('data/filtered_characters.json');
     allCharacters = await response.json();
@@ -14,6 +17,7 @@ async function loadCharacters(gender) {
   
     // Pick 5 characters at random  
     // TODO: add a better sampling logic (one or two harder characters and no duplicate ages!)
+    // TODO: add daily mode basing seed on date
     characters = shuffle([...allCharacters]).slice(0, numCharacters);
     guessOrder = [...characters]; // initial order = random
     realOrder = characters.sort((a, b) => parseInt(a.age) - parseInt(b.age));
