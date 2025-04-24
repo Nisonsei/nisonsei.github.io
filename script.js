@@ -28,6 +28,7 @@ function displayCharacters() {
     div.className = 'character-card';
     div.setAttribute('draggable', true);
     div.setAttribute('data-index', index); // for tracking drag index
+    div.dataset.dropIndex = index;
     div.innerHTML = `
       <img src="${char.image}" alt="${char.name}">
       <p><strong>${char.name}</strong></p>
@@ -55,9 +56,23 @@ function addDragListeners() {
           draggedIndex = parseInt(card.dataset.index);
           card.classList.add('dragging');
         });
+
+        card.addEventListener('dragover', (e) => {
+            e.preventDefault();
+          });
     
         card.addEventListener('dragend', () => {
           card.classList.remove('dragging');
+        });
+
+        card.addEventListener('drop', () => {
+            const dropIndex = parseInt(card.dataset.dropIndex);
+            if (draggedIndex !== null && draggedIndex !== dropIndex) {
+                const oldItem = guessOrder[draggedIndex];
+                guessOrder[draggedIndex] = guessOrder[dropIndex];
+                guessOrder[dropIndex] = oldItem;
+                displayCharacters();
+            }
         });
       });
     
