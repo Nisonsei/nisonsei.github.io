@@ -120,12 +120,14 @@ function setupStartButtons(){
     const startDaily = document.getElementById("startDaily");
     const startMale = document.getElementById("startMale");
     const startFemale = document.getElementById("startFemale");
+    const hintCount = document.getElementById("hints");
 
     startDaily.addEventListener("click", function (){
         content.classList.remove("hidden");   // show the content
         startDaily.classList.add("hidden");    // hide the button again
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
+        hintCount.innerText = `Number of Hints: ${numberOfHints}`;
         loadCharacters("All");
     });
 
@@ -134,6 +136,7 @@ function setupStartButtons(){
         startDaily.classList.add("hidden");    // hide the button again
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
+        hintCount.innerText = `Number of Hints: ${numberOfHints}`;
         loadCharacters("Male");
     });
 
@@ -142,6 +145,7 @@ function setupStartButtons(){
         startDaily.classList.add("hidden");    // hide the button again
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
+        hintCount.innerText = `Number of Hints: ${numberOfHints}`;
         loadCharacters("Female");
     });
 }
@@ -162,31 +166,73 @@ function displayHistory(idx) {
   });
 
   // Add Counts of Right
-  const div_right = document.createElement('div');
-  div_right.className = 'hint-card';
-  div_right.style.backgroundColor = guessColorMapping[0];
-  div_right.innerHTML = `
+  const button_right = document.createElement('button');
+  button_right.className = 'hint-card';
+  button_right.style.backgroundColor = guessColorMapping[0];
+  button_right.innerHTML = `
       <p>${correctCount}</p>
     `;
-  historyContainer.appendChild(div_right);
+  historyContainer.appendChild(button_right);
 
   // Add Counts of Close
-  const div_close = document.createElement('div');
-  div_close.className = 'hint-card';
-  div_close.style.backgroundColor = guessColorMapping[1];
-  div_close.innerHTML = `
+  const button_close = document.createElement('button');
+  button_close.className = 'hint-card';
+  button_close.style.backgroundColor = guessColorMapping[1];
+  button_close.innerHTML = `
       <p>${closeCount}</p>
     `;
-  historyContainer.appendChild(div_close);
+  historyContainer.appendChild(button_close);
 
   // Add Counts of Wrong
-  const div_wrong = document.createElement('div');
-  div_wrong.className = 'hint-card';
-  div_wrong.style.backgroundColor = guessColorMapping[2];
-  div_wrong.innerHTML = `
+  const button_wrong = document.createElement('button');
+  button_wrong.className = 'hint-card';
+  button_wrong.style.backgroundColor = guessColorMapping[2];
+
+  button_wrong.innerHTML = `
       <p>${wrongCount}</p>
     `;
-  historyContainer.appendChild(div_wrong);
+  historyContainer.appendChild(button_wrong);
+
+  // Add functionality to Buttons
+  const miniCards = historyContainer.querySelectorAll('.mini-card');
+  let currentResultHistory = (idx == 0) ? guessHistoryResults0 : guessHistoryResults1;
+  const hintCount = document.getElementById("hints");
+
+  button_right.addEventListener('click', () => {
+    if (numberOfHints > 0){
+    miniCards.forEach((card, i) => {
+      if (currentResultHistory[i] == 0){
+        card.style.backgroundColor = guessColorMapping[0];
+      }
+    });
+    numberOfHints--;
+    hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    }
+  });
+
+  button_close.addEventListener('click', () => {
+    if (numberOfHints > 0){
+    miniCards.forEach((card, i) => {
+      if (currentResultHistory[i] == 1){
+        card.style.backgroundColor = guessColorMapping[1];
+      }
+    });
+    numberOfHints--;
+    hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    }
+  });
+
+  button_wrong.addEventListener('click', () => {
+    if (numberOfHints > 0){
+    miniCards.forEach((card, i) => {
+      if (currentResultHistory[i] == 2){
+        card.style.backgroundColor = guessColorMapping[2];
+      }
+    });
+    numberOfHints--;
+    hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    }
+  });
 }
 
 const guessMapping = {

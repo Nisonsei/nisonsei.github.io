@@ -54,7 +54,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .mini-card {
@@ -78,9 +78,9 @@ body {
   }
 
   .hint-card {
+    all: unset;
     width: 100px;
     height: 140px;
-    padding: 0.5rem;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -90,6 +90,9 @@ body {
     box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
     background-color: #fff;
     margin-left: 20px;
+    cursor: pointer; /* makes the mouse pointer change again */
+    user-select: none; /* optional: prevent text selection */
+    font: inherit;     /* optional: match surrounding text */
   }
   
   .character-card img {
