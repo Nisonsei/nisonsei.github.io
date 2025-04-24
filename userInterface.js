@@ -1,17 +1,8 @@
 let characters = [];
 let guessOrder = [];
 let draggedIndex = null;
+let guessCount = 0;
 
-async function loadCharacters() {
-  const response = await fetch('data/filtered_characters.json');
-  const allCharacters = await response.json();
-
-  // Pick 5 characters at random
-  characters = shuffle([...allCharacters]).slice(0, 7);
-  guessOrder = [...characters]; // initial order = random
-
-  displayCharacters();
-}
 
 function displayCharacters() {
   const container = document.getElementById('game-container');
@@ -59,13 +50,19 @@ function addDragListeners() {
 
         card.addEventListener('dragover', (e) => {
             e.preventDefault();
+            card.classList.add('active-drop');
           });
     
         card.addEventListener('dragend', () => {
           card.classList.remove('dragging');
         });
 
+        card.addEventListener('dragleave', () => {
+          card.classList.remove('active-drop');
+        });
+
         card.addEventListener('drop', () => {
+            card.classList.remove('active-drop');
             const dropIndex = parseInt(card.dataset.dropIndex);
             if (draggedIndex !== null && draggedIndex !== dropIndex) {
                 const oldItem = guessOrder[draggedIndex];
@@ -110,21 +107,6 @@ function shuffle(array) {
   return array;
 }
 
-document.getElementById('shuffle-button').addEventListener('click', () => {
-  guessOrder = shuffle([...guessOrder]);
-  displayCharacters();
-});
-
-document.getElementById('guess-button').addEventListener('click', () => {
-  const correct = [...characters].sort((a, b) => a.age - b.age);
-  const feedback = guessOrder.map((char, i) => {
-    const correctIndex = correct.findIndex(c => c.name === char.name);
-    if (i === correctIndex) return '✅';
-    else if (Math.abs(i - correctIndex) <= 2) return '🟡';
-    else return '❌';
-  });
-  alert("Feedback:\n" + feedback.join(" "));
-});
 
 function setupStartButtons(){
     const content = document.getElementById("content");
