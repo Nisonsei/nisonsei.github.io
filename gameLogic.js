@@ -1,10 +1,18 @@
-async function loadCharacters() {
+async function loadCharacters(gender) {
     const response = await fetch('data/filtered_characters.json');
-    const allCharacters = await response.json();
+    allCharacters = await response.json();
+
+    if(gender == "Male"){
+        allCharacters = allCharacters.filter(data => data.gender == "Male")
+    }
+    else if(gender == "Female"){
+        allCharacters = allCharacters.filter(data => data.gender == "Female")
+    }
   
-    // Pick 5 characters at random
+    // Pick 5 characters at random  TODO: add a better sampling logic (one or two harder characters and no duplicate ages!)
     characters = shuffle([...allCharacters]).slice(0, 7);
     guessOrder = [...characters]; // initial order = random
+    realOrder = characters.sort((a, b) => parseInt(a.age) - parseInt(b.age));
   
     displayCharacters();
   }
@@ -23,5 +31,8 @@ const feedback = guessOrder.map((char, i) => {
     else if (Math.abs(i - correctIndex) <= 2) return '🟡';
     else return '❌';
 });
+guessCount++;
+const numOfGuesses = document.getElementById('numOfGuesses');
+numOfGuesses.textContent = "Number of Guesses: " + guessCount;
 alert("Feedback:\n" + feedback.join(" "));
 });

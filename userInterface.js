@@ -119,7 +119,7 @@ function setupStartButtons(){
         startDaily.classList.add("hidden");    // hide the button again
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
-        loadCharacters();   // TODO change to daily option
+        loadCharacters("All");
     });
 
     startMale.addEventListener("click", function (){
@@ -127,7 +127,7 @@ function setupStartButtons(){
         startDaily.classList.add("hidden");    // hide the button again
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
-        loadCharacters();   // TODO change to male option
+        loadCharacters("Male");
     });
 
     startFemale.addEventListener("click", function (){
@@ -135,7 +135,7 @@ function setupStartButtons(){
         startDaily.classList.add("hidden");    // hide the button again
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
-        loadCharacters();   // TODO change to female option
+        loadCharacters("Female");
     });
 }
 
