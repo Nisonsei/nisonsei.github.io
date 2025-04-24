@@ -25,11 +25,29 @@ function displayCharacters() {
       <p><strong>${char.name}</strong></p>
       <p>${char.anime}</p>
     `;
-    /* // dynamically change background color according to past information
-    div.style.backgroundColor = guessColorMapping[char.pastGuesses[index]];
 
+    // dynamically change background color according to past information
+
+    // was already revealed via hint and is at correct position
+    if (correctRevealed[index] && char.pastGuesses[index] == 0){
+      div.style.backgroundColor = guessColorMapping[0];
+    }
+    // was already correctly revealed, but different character is in position
+    else if (correctRevealed[index] && char.pastGuesses[index] != 0){
+      div.style.backgroundColor = guessColorMapping[2];
+    }
+    // was already revealed via hint and is exactly at revealed position
+    else if (closeRevealed[index] && char.pastGuesses[index] == 1){
+      div.style.backgroundColor = guessColorMapping[1];
+    }
+    // was already revealed via hint and is exactly at revealed position
+    else if (wrongRevealed[index] && char.pastGuesses[index] == 2){
+      console.log(cur_realIndex);
+      div.style.backgroundColor = guessColorMapping[2];
+    }
+    
     // if real position is already guesses, also show green
-    if (char.pastGuesses.includes(0) && realOrder.findIndex(character => character.name == char.name) != index){
+    /* if (char.pastGuesses.includes(0) && realOrder.findIndex(character => character.name == char.name) != index){
       div.style.backgroundColor = guessColorMapping[2];
     } */
     container.appendChild(div);
@@ -198,39 +216,48 @@ function displayHistory(idx) {
   let currentResultHistory = (idx == 0) ? guessHistoryResults0 : guessHistoryResults1;
   const hintCount = document.getElementById("hints");
 
+  // Right Reveal Buttons
   button_right.addEventListener('click', () => {
     if (numberOfHints > 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 0){
         card.style.backgroundColor = guessColorMapping[0];
+        correctRevealed[i] = true;
       }
     });
     numberOfHints--;
     hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    displayCharacters();
     }
   });
 
+  // Close Reveal Buttons
   button_close.addEventListener('click', () => {
     if (numberOfHints > 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 1){
         card.style.backgroundColor = guessColorMapping[1];
+        closeRevealed[i] = true;
       }
     });
     numberOfHints--;
     hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    displayCharacters();
     }
   });
 
+  // Wrong Reveal Buttons
   button_wrong.addEventListener('click', () => {
     if (numberOfHints > 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 2){
         card.style.backgroundColor = guessColorMapping[2];
+        wrongRevealed[i] = true;
       }
     });
     numberOfHints--;
     hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    displayCharacters();
     }
   });
 }

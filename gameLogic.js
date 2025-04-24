@@ -7,11 +7,16 @@ let wrongCount = 0;
 let numberOfHints = 2;  
 
 // Results of History
-let guessHistoryResults0 = new Array(7).fill(3);
-let guessHistoryResults1 = new Array(7).fill(3);
+let guessHistoryResults0 = new Array(numCharacters).fill(3);
+let guessHistoryResults1 = new Array(numCharacters).fill(3);
 // Actual History
-let guessHistory0 = new Array(7).fill(3);
-let guessHistory1 = new Array(7).fill(3);
+let guessHistory0 = new Array(numCharacters).fill(3);
+let guessHistory1 = new Array(numCharacters).fill(3);
+
+// Flags for revealed Hints. Used to highlight colors when reordering after using a hint
+let correctRevealed = new Array(numCharacters).fill(false);
+let closeRevealed = new Array(numCharacters).fill(false);
+let wrongRevealed = new Array(numCharacters).fill(false);
 
 // TODO: game is too easy. Only reveal number of correct guesses and give "hint" button to reveal red/green/yellow for one past guess
 // TODO: -> this requires visualization of guess history -> 3 boxes below with only images and count + reveal button next to it!
@@ -83,8 +88,8 @@ wrongCount = 0;
 });
 
 function evaluateGuesses(turn){
-    let currentGuessResultHistory = new Array(7).fill(3);
-    let currentGuessHistory = new Array(7).fill(3);
+    let currentGuessResultHistory = new Array(numCharacters).fill(3);
+    let currentGuessHistory = new Array(numCharacters).fill(3);
     guessOrder.forEach((char, index) => {
         const realIndex = realOrder.findIndex(character => character.name == char.name);
 
