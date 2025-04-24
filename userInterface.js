@@ -42,7 +42,6 @@ function displayCharacters() {
     }
     // was already revealed via hint and is exactly at revealed position
     else if (wrongRevealed[index] && char.pastGuesses[index] == 2){
-      console.log(cur_realIndex);
       div.style.backgroundColor = guessColorMapping[2];
     }
     
