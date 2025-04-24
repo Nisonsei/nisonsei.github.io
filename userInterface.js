@@ -24,6 +24,7 @@ function displayCharacters() {
       <img src="${char.image}" alt="${char.name}">
       <p><strong>${char.name}</strong></p>
       <p>${char.anime}</p>
+      <p id="pastGuesses">${pastGuessesToString(char)}<\p>
     `;
     container.appendChild(div);
   });
@@ -33,6 +34,8 @@ function displayCharacters() {
   finalDropZone.className = 'drop-zone';
   finalDropZone.dataset.dropIndex = guessOrder.length;
   container.appendChild(finalDropZone);
+
+  // TODO: actively change background of character portaits based on current information (past guesses)
 
   addDragListeners();   // atach drag event after rendering
 }
@@ -137,6 +140,19 @@ function setupStartButtons(){
         startFemale.classList.add("hidden");    // hide the button again
         loadCharacters("Female");
     });
+}
+
+const guessMapping = {
+  0: '✅',
+  1: '🟡',
+  2: '❌',
+  3: '❓'
+};
+
+function pastGuessesToString(char){
+  relevantGuesses = char.pastGuesses;
+  guessString = relevantGuesses.map(num => guessMapping[num]).join("");
+  return guessString;
 }
 
 setupStartButtons();
