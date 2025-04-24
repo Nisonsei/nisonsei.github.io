@@ -54,6 +54,14 @@ displayCharacters();
 });
 
 document.getElementById('guess-button').addEventListener('click', () => {
+if (guessCount == maxGuesses){
+    // TODO: add victory screen, real ages
+
+    // show colors of results
+    correctRevealed = new Array(numCharacters).fill(true);
+    closeRevealed = new Array(numCharacters).fill(true);
+    wrongRevealed = new Array(numCharacters).fill(true);
+}
 evaluateGuesses(guessCount);
 /* const correct = [...characters].sort((a, b) => a.age - b.age);
 const feedback = guessOrder.map((char, i) => {
@@ -72,9 +80,6 @@ if (guessCount < maxGuesses) {
 if (guessCount == maxGuesses-1){
     // Change Text from Guess to Final Guess
     document.getElementById('guess-button').innerText = "Final Guess";
-}
-if (guessCount == maxGuesses){
-    // TODO: Finish game!!!
 }
 guessCount++;
 // const numOfGuesses = document.getElementById('numOfGuesses');
