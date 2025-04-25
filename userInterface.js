@@ -231,7 +231,7 @@ function displayHistory(idx) {
       if (currentResultHistory[i] == 0){
         card.style.backgroundColor = guessColorMapping[0];
         // write which history was used
-        usedHintIndices[maxNumberOfHints-numberOfHints] = maxNumberOfHints-numberOfHints;
+        usedHintIndices[maxNumberOfHints-numberOfHints] = idx;
         usedHintType[maxNumberOfHints-numberOfHints] = 0;
         // this is used to know that any other guess is wrong at this position
         correctRevealed[i] = true;
@@ -294,6 +294,29 @@ function pastGuessesToString(char){
   relevantGuesses = char.pastGuesses;
   guessString = relevantGuesses.map(num => guessMapping[num]).join("");
   return guessString;
+}
+
+function displayFinalScreen(wonFlag){
+  const finalCharacterCards = Array.from(document.getElementsByClassName('character-card'));
+
+  finalCharacterCards.forEach((card, i) => {
+    // Create Age Texts
+    const div = document.createElement('div');
+    div.innerText = `Age: ${guessOrder[i].age}`;
+    div.className = "ageText";
+    card.appendChild(div);
+
+    // Change background color according to position
+    card.style.backgroundColor = guessColorMapping[finalGuessHistoryResults[i]];
+  });
+
+  // Disable alle buttons
+  const uiBlocker = document.createElement('div');
+  uiBlocker.id = "ui-blocker";
+  document.getElementById('game-container').appendChild(uiBlocker);
+
+  const headerBlock = document.getElementById('header');
+  headerBlock.innerText = wonFlag ? "You Won!!!" : "You Lost :("
 }
 
 setupStartButtons();

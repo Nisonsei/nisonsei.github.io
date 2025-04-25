@@ -40,6 +40,7 @@ body {
   }
   
   .character-card {
+    position: relative;
     width: 180px;
     height: 425px;
     padding: 0.5rem;
@@ -99,6 +100,16 @@ body {
     width: 100%;
     border-radius: 8px;
   }
+
+  .ageText{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    justify-content: center;
+    font-weight: bold;
+    padding: 4px;
+  }
   
   button {
     margin: 1rem;
@@ -118,4 +129,15 @@ body {
   
   button:hover {
     background-color: #eee;
+  }
+
+  #ui-blocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent; /* or rgba(0,0,0,0.3) to dim the screen */
+    z-index: 9999;
+    pointer-events: all;
   }

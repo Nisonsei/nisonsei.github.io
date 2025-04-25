@@ -6,12 +6,14 @@ let closeCount = 0;
 let wrongCount = 0;
 let numberOfHints = 2;
 let maxNumberOfHints = 2;
+let wonGame = false;
 
 // TODO: Add third row of guesses and increase max Guesses to 3
 
 // Results of History
 let guessHistoryResults0 = new Array(numCharacters).fill(3);
 let guessHistoryResults1 = new Array(numCharacters).fill(3);
+let finalGuessHistoryResults = new Array(numCharacters).fill(3);
 // Actual History
 let guessHistory0 = new Array(numCharacters).fill(3);
 let guessHistory1 = new Array(numCharacters).fill(3);
@@ -38,7 +40,6 @@ async function loadCharacters(gender) {
   
     // Pick 5 characters at random  
     // TODO: add a better sampling logic (one or two harder characters and no duplicate ages!)
-    // TODO: add daily mode basing seed on date
     characters = shuffle([...allCharacters]).slice(0, numCharacters);
     guessOrder = [...characters]; // initial order = random
     realOrder = characters.sort((a, b) => parseInt(a.age) - parseInt(b.age));
@@ -58,13 +59,25 @@ displayCharacters();
 });
 
 document.getElementById('guess-button').addEventListener('click', () => {
-if (guessCount == maxGuesses){
-    // TODO: add victory screen, real ages
+// Check if Won already
+let comparison = new Array(numCharacters).fill(undefined);
+realOrder.forEach((char, i) => comparison[i] = char.name == guessOrder[i].name);
+wonGame = comparison.every(x => x);
 
-    // show colors of results
-    correctRevealed = new Array(numCharacters).fill(true);
-}
+// Evaluate even if won (for final screen)
 evaluateGuesses(guessCount);
+
+if (wonGame){
+    // Won the game
+    displayFinalScreen(true);
+    return;
+}
+else if (guessCount == maxGuesses){
+    // Game Over
+    displayFinalScreen(false);
+    return;
+}
+
 /* const correct = [...characters].sort((a, b) => a.age - b.age);
 const feedback = guessOrder.map((char, i) => {
     const correctIndex = correct.findIndex(c => c.name === char.name);
@@ -131,5 +144,8 @@ function evaluateGuesses(turn){
     else if (turn == 1){
         guessHistoryResults1 = currentGuessResultHistory;
         guessHistory1 = currentGuessHistory;
+    }
+    else if (turn == 2){
+        finalGuessHistoryResults = currentGuessResultHistory;
     }
 }
