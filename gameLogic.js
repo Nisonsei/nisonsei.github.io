@@ -44,9 +44,19 @@ async function loadCharacters(gender) {
         allCharacters = allCharacters.filter(data => data.gender == "Female")
     }
   
-    // Pick 5 characters at random  
-    // TODO: add a better sampling logic (one or two harder characters and no duplicate ages!)
-    characters = shuffle([...allCharacters]).slice(0, numCharacters);
+    // Shuffle and sample with unique ages
+    const shuffled = shuffle([...allCharacters]);
+    const seenAges = new Set();
+    let characters = [];
+
+    for (const char of shuffled) {
+        if (!seenAges.has(char.age)) {
+            characters.push(char);
+            seenAges.add(char.age);
+        }
+        if (characters.length === numCharacters) break;
+    }
+
     guessOrder = [...characters]; // initial order = random
     realOrder = characters.sort((a, b) => parseInt(a.age) - parseInt(b.age));
 
