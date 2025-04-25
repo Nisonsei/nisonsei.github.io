@@ -140,6 +140,16 @@ function shuffle(array) {
   return array;
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+  // small visual fix for slider when refreshing page
+  const slider = document.getElementById('slider');
+  const sliderValue = document.getElementById('sliderValue');
+
+  // Force slider and display to match your default (2)
+  slider.value = 2;
+  sliderValue.textContent = '2';
+});
+
 
 function setupStartButtons(){
     const content = document.getElementById("content");
@@ -154,6 +164,7 @@ function setupStartButtons(){
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
         hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+        document.getElementById('difficulty').style.display = 'none';
         loadCharacters("All");
     });
 
@@ -163,6 +174,7 @@ function setupStartButtons(){
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
         hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+        document.getElementById('difficulty').style.display = 'none';
         loadCharacters("Male");
     });
 
@@ -172,6 +184,7 @@ function setupStartButtons(){
         startMale.classList.add("hidden");    // hide the button again
         startFemale.classList.add("hidden");    // hide the button again
         hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+        document.getElementById('difficulty').style.display = 'none';
         loadCharacters("Female");
     });
 }
@@ -226,7 +239,7 @@ function displayHistory(idx) {
 
   // Right Reveal Buttons
   button_right.addEventListener('click', () => {
-    if (numberOfHints > 0){
+    if (numberOfHints > 0 && parseInt(button_right.innerText) != 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 0){
         card.style.backgroundColor = guessColorMapping[0];
@@ -245,7 +258,7 @@ function displayHistory(idx) {
 
   // Close Reveal Buttons
   button_close.addEventListener('click', () => {
-    if (numberOfHints > 0){
+    if (numberOfHints > 0 && parseInt(button_close.innerText) != 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 1){
         card.style.backgroundColor = guessColorMapping[1];
@@ -261,7 +274,7 @@ function displayHistory(idx) {
 
   // Wrong Reveal Buttons
   button_wrong.addEventListener('click', () => {
-    if (numberOfHints > 0){
+    if (numberOfHints > 0 && parseInt(button_wrong.innerText) != 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 2){
         card.style.backgroundColor = guessColorMapping[2];

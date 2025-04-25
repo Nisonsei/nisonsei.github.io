@@ -8,8 +8,6 @@ let numberOfHints = 2;
 let maxNumberOfHints = 2;
 let wonGame = false;
 
-// TODO: Add third row of guesses and increase max Guesses to 3
-
 // Results of History
 let guessHistoryResults0 = new Array(numCharacters).fill(3);
 let guessHistoryResults1 = new Array(numCharacters).fill(3);
@@ -19,13 +17,21 @@ let guessHistory0 = new Array(numCharacters).fill(3);
 let guessHistory1 = new Array(numCharacters).fill(3);
 
 // Flags for revealed Hints. Used to highlight colors when reordering after using a hint
-// TODO: this is bugged: need to also track of which hint was taken
 let correctRevealed = new Array(numCharacters).fill(false);
 
 // In which history was which hint used
 let usedHintIndices = new Array(maxNumberOfHints).fill(-1);
 // Which type of hint was used (0: correct, 1: close, 2: wrong)
 let usedHintType = new Array(maxNumberOfHints).fill(-1);
+
+const slider = document.getElementById('slider');
+const sliderValue = document.getElementById('sliderValue');
+
+slider.addEventListener('input', () => {
+  sliderValue.textContent = slider.value;
+  maxNumberOfHints = parseInt(sliderValue.textContent);
+  numberOfHints = maxNumberOfHints;
+});
 
 async function loadCharacters(gender) {
     const response = await fetch('data/filtered_characters.json');
