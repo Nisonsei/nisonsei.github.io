@@ -249,7 +249,7 @@ function displayHistory(idx) {
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 1){
         card.style.backgroundColor = guessColorMapping[1];
-        usedHintIndices[maxNumberOfHints-numberOfHints] = maxNumberOfHints-numberOfHints;
+        usedHintIndices[maxNumberOfHints-numberOfHints] = idx;
         usedHintType[maxNumberOfHints-numberOfHints] = 1;
       }
     });
@@ -265,7 +265,7 @@ function displayHistory(idx) {
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 2){
         card.style.backgroundColor = guessColorMapping[2];
-        usedHintIndices[maxNumberOfHints-numberOfHints] = maxNumberOfHints-numberOfHints;
+        usedHintIndices[maxNumberOfHints-numberOfHints] = idx;
         usedHintType[maxNumberOfHints-numberOfHints] = 2;
       }
     });
