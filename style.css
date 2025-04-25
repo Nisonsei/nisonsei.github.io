@@ -94,6 +94,17 @@ body {
     cursor: pointer; /* makes the mouse pointer change again */
     user-select: none; /* optional: prevent text selection */
     font: inherit;     /* optional: match surrounding text */
+
+    outline: 2px dashed #aaa; /* <-- dashed outline */
+    outline-offset: -6px;     /* pulls it inward inside the border */
+    transition: outline-color 0.2s ease;
+  }
+
+  .hint-card.disabled-hint {
+    outline: none;
+    pointer-events: none; /* disables clicks */
+    opacity: 0.5;          /* visually dim it */
+    cursor: default;
   }
   
   .character-card img {

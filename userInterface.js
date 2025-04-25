@@ -232,6 +232,13 @@ function displayHistory(idx) {
     `;
   historyContainer.appendChild(button_wrong);
 
+  // disable buttons if no hints when revealing new history
+  if (numberOfHints <= 0){
+    document.querySelectorAll('.hint-card').forEach(card => {
+      card.classList.add('disabled-hint');
+    });
+  }
+
   // Add functionality to Buttons
   const miniCards = historyContainer.querySelectorAll('.mini-card');
   let currentResultHistory = (idx == 0) ? guessHistoryResults0 : guessHistoryResults1;
@@ -239,6 +246,7 @@ function displayHistory(idx) {
 
   // Right Reveal Buttons
   button_right.addEventListener('click', () => {
+    // hints left and would reveal something
     if (numberOfHints > 0 && parseInt(button_right.innerText) != 0){
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 0){
@@ -252,6 +260,16 @@ function displayHistory(idx) {
     });
     numberOfHints--;
     hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+
+    // disable button if it was already pressed
+    button_right.classList.add('disabled-hint');
+
+    // disable button if no more hints available
+    if (numberOfHints <= 0){
+      document.querySelectorAll('.hint-card').forEach(card => {
+        card.classList.add('disabled-hint');
+      });
+    }
     displayCharacters();
     }
   });
@@ -268,6 +286,15 @@ function displayHistory(idx) {
     });
     numberOfHints--;
     hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+
+    // disable button if it was already pressed
+    button_close.classList.add('disabled-hint');
+    // removed dotted lines if no more hints available
+    if (numberOfHints <= 0){
+      document.querySelectorAll('.hint-card').forEach(card => {
+        card.classList.add('disabled-hint');
+      });
+    }
     displayCharacters();
     }
   });
@@ -284,6 +311,14 @@ function displayHistory(idx) {
     });
     numberOfHints--;
     hintCount.innerText = `Number of Hints: ${numberOfHints}`;
+    // disable button if it was already pressed
+    button_wrong.classList.add('disabled-hint');
+    // removed dotted lines if no more hints available
+    if (numberOfHints <= 0){
+      document.querySelectorAll('.hint-card').forEach(card => {
+        card.classList.add('disabled-hint');
+      });
+    }
     displayCharacters();
     }
   });
@@ -323,7 +358,7 @@ function displayFinalScreen(wonFlag){
     card.style.backgroundColor = guessColorMapping[finalGuessHistoryResults[i]];
   });
 
-  // Disable alle buttons
+  // Disable all buttons
   const uiBlocker = document.createElement('div');
   uiBlocker.id = "ui-blocker";
   document.getElementById('game-container').appendChild(uiBlocker);
