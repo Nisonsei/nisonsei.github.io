@@ -355,7 +355,17 @@ function displayFinalScreen(wonFlag){
     card.appendChild(div);
 
     // Change background color according to position
-    card.style.backgroundColor = guessColorMapping[finalGuessHistoryResults[i]];
+    let currentGuessHistoryRes = guessHistoryResults0;
+    if (guessCount == 0){
+      currentGuessHistoryRes = guessHistoryResults0;
+    }
+    else if (guessCount == 1){
+      currentGuessHistoryRes = guessHistoryResults1;
+    }
+    else if (guessCount == 2){
+      currentGuessHistoryRes = finalGuessHistoryResults;
+    }
+    card.style.backgroundColor = guessColorMapping[currentGuessHistoryRes[i]];
   });
 
   // Disable all buttons
