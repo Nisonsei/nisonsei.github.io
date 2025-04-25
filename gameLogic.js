@@ -1,10 +1,13 @@
 let numCharacters = 8;
-let closeThreshold = 1; // TODO: set to 0-3 for hard/easy mode
+let closeThreshold = 1;
 let maxGuesses = 2;
 let correctCount = 0;
 let closeCount = 0;
 let wrongCount = 0;
-let numberOfHints = 2;  
+let numberOfHints = 2;
+let maxNumberOfHints = 2;
+
+// TODO: Add third row of guesses and increase max Guesses to 3
 
 // Results of History
 let guessHistoryResults0 = new Array(numCharacters).fill(3);
@@ -14,12 +17,13 @@ let guessHistory0 = new Array(numCharacters).fill(3);
 let guessHistory1 = new Array(numCharacters).fill(3);
 
 // Flags for revealed Hints. Used to highlight colors when reordering after using a hint
+// TODO: this is bugged: need to also track of which hint was taken
 let correctRevealed = new Array(numCharacters).fill(false);
-let closeRevealed = new Array(numCharacters).fill(false);
-let wrongRevealed = new Array(numCharacters).fill(false);
 
-// TODO: game is too easy. Only reveal number of correct guesses and give "hint" button to reveal red/green/yellow for one past guess
-// TODO: -> this requires visualization of guess history -> 3 boxes below with only images and count + reveal button next to it!
+// In which history was which hint used
+let usedHintIndices = new Array(maxNumberOfHints).fill(-1);
+// Which type of hint was used (0: correct, 1: close, 2: wrong)
+let usedHintType = new Array(maxNumberOfHints).fill(-1);
 
 async function loadCharacters(gender) {
     const response = await fetch('data/filtered_characters.json');
@@ -59,8 +63,6 @@ if (guessCount == maxGuesses){
 
     // show colors of results
     correctRevealed = new Array(numCharacters).fill(true);
-    closeRevealed = new Array(numCharacters).fill(true);
-    wrongRevealed = new Array(numCharacters).fill(true);
 }
 evaluateGuesses(guessCount);
 /* const correct = [...characters].sort((a, b) => a.age - b.age);

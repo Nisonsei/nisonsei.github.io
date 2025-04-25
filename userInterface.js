@@ -28,21 +28,30 @@ function displayCharacters() {
 
     // dynamically change background color according to past information
 
-    // was already revealed via hint and is at correct position
-    if (correctRevealed[index] && char.pastGuesses[index] == 0){
-      div.style.backgroundColor = guessColorMapping[0];
-    }
-    // was already correctly revealed, but different character is in position
-    else if (correctRevealed[index] && char.pastGuesses[index] != 0){
-      div.style.backgroundColor = guessColorMapping[2];
-    }
-    // was already revealed via hint and is exactly at revealed position
-    else if (closeRevealed[index] && char.pastGuesses[index] == 1){
-      div.style.backgroundColor = guessColorMapping[1];
-    }
-    // was already revealed via hint and is exactly at revealed position
-    else if (wrongRevealed[index] && char.pastGuesses[index] == 2){
-      div.style.backgroundColor = guessColorMapping[2];
+    // run over every hint and check if we should recoulor anything
+    usedHintIndices.forEach((hint, i) => {
+      let relevantHistory = null;
+      if (hint == 0){
+        relevantHistory = guessHistory0;
+      }
+      if (hint == 1){
+        relevantHistory = guessHistory1;
+      }
+      
+      if (relevantHistory != null){
+      // check if character was at the current position in this specific previous hint
+      let characterPositionInRelHistory = relevantHistory.findIndex(obj => obj.name === char.name);
+      if (index == characterPositionInRelHistory){  // we are at the exact same position as in a previous hint!
+        let hintType = relevantHistory[index].pastGuesses[index]
+        if (usedHintType[i] == hintType){   // and we even used the right hint type!!!
+        div.style.backgroundColor = guessColorMapping[hintType];
+        }
+      }
+      }
+    });
+
+    if(correctRevealed[index] && char.pastGuesses[index] != 0){ // check if green was revealed at any position
+      div.style.backgroundColor = guessColorMapping[2];   // guess is wrong -> red
     }
     
     // if real position is already guesses, also show green
@@ -221,6 +230,10 @@ function displayHistory(idx) {
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 0){
         card.style.backgroundColor = guessColorMapping[0];
+        // write which history was used
+        usedHintIndices[maxNumberOfHints-numberOfHints] = maxNumberOfHints-numberOfHints;
+        usedHintType[maxNumberOfHints-numberOfHints] = 0;
+        // this is used to know that any other guess is wrong at this position
         correctRevealed[i] = true;
       }
     });
@@ -236,7 +249,8 @@ function displayHistory(idx) {
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 1){
         card.style.backgroundColor = guessColorMapping[1];
-        closeRevealed[i] = true;
+        usedHintIndices[maxNumberOfHints-numberOfHints] = maxNumberOfHints-numberOfHints;
+        usedHintType[maxNumberOfHints-numberOfHints] = 1;
       }
     });
     numberOfHints--;
@@ -251,7 +265,8 @@ function displayHistory(idx) {
     miniCards.forEach((card, i) => {
       if (currentResultHistory[i] == 2){
         card.style.backgroundColor = guessColorMapping[2];
-        wrongRevealed[i] = true;
+        usedHintIndices[maxNumberOfHints-numberOfHints] = maxNumberOfHints-numberOfHints;
+        usedHintType[maxNumberOfHints-numberOfHints] = 2;
       }
     });
     numberOfHints--;
